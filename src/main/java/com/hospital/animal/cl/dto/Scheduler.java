@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class Scheduler {
-    private User entity;
-    private Entity name;
+    private User user;
+    private Entity entity;
 }

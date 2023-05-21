@@ -1,12 +1,14 @@
 package com.hospital.animal.cl.dto;
 
-import com.hospital.animal.cl.services.firebase.FirebaseRegister;
 import lombok.*;
 
+import javax.validation.constraints.NotNull;
+
 @Data
-@EqualsAndHashCode(callSuper = false)
-public class User extends FirebaseRegister {
+public class User extends DatabaseRegister {
+    @NotNull
     private String name ;
+    @NotNull
     private String email ;
     private Integer age ;
     private String avatar ;

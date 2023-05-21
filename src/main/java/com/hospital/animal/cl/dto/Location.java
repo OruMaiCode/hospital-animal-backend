@@ -5,9 +5,11 @@ import lombok.*;
 
 @Data
 @AllArgsConstructor
-@Builder
 @NoArgsConstructor
+
 public class Location {
+    @Getter
+    @Setter
     private String address;
     private Coordinates coordinates;
 }

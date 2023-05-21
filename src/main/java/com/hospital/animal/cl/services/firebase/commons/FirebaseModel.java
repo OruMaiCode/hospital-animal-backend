@@ -1,16 +1,18 @@
-package com.hospital.animal.cl.services.firebase;
+package com.hospital.animal.cl.services.firebase.commons;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
+import com.hospital.animal.cl.dto.DatabaseRegister;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
 
 @Service
-public class FirebaseModel<T extends FirebaseRegister> {
+public class FirebaseModel<T extends DatabaseRegister> {
     @Autowired
     private FirebaseInitializerService firebaseInitializerService;
     private Firestore firestore;
@@ -36,7 +38,7 @@ public class FirebaseModel<T extends FirebaseRegister> {
 
     public T create(T t) throws InterruptedException, ExecutionException {
         DocumentReference document = this.firestore.collection(this.collectionName).document();
-        t.setuID(document.getId());
+        t.setUid(document.getId());
         ApiFuture<WriteResult> writeResultApiFuture = document.set(t);
         writeResultApiFuture.get();
         if (writeResultApiFuture.isDone()) {
@@ -48,7 +50,8 @@ public class FirebaseModel<T extends FirebaseRegister> {
 
     public T update(T t) throws ExecutionException, InterruptedException {
 
-            DocumentReference document = this.firestore.collection(this.collectionName).document(t.getuID());
+
+            DocumentReference document = this.firestore.collection(this.collectionName).document(t.getUid());
             ApiFuture<WriteResult> writeResultApiFuture = document.set(t, SetOptions.merge());
             writeResultApiFuture.get();
             if (writeResultApiFuture.isDone()) {

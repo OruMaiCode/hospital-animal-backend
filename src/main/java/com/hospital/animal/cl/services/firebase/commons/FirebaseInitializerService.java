@@ -1,4 +1,4 @@
-package com.hospital.animal.cl.services.firebase;
+package com.hospital.animal.cl.services.firebase.commons;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.Firestore;
@@ -13,24 +13,28 @@ import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-
+import org.springframework.beans.factory.annotation.Value;
 
 @Service
-@AllArgsConstructor
+
 
 public class FirebaseInitializerService {
 
     @Autowired
     ResourceLoader resourceLoader;
+    @Value("${firebase.config.path}")
+    private String configPath;
+    @Value("${firebase.config.url}")
+    private String databaseURL;
     @PostConstruct
     public void initialize() throws IOException {
 
         try {
-            File file = new File(resourceLoader.getResource("classpath:hospital-animal-firebase-adminsdk-e4u6d-c7598955b3.json").getURI());
+            File file = new File(resourceLoader.getResource(this.configPath).getURI());
             FileInputStream serviceAccount = new FileInputStream(file);
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                    .setDatabaseUrl("https://hospital-animal.firebaseapp.com")
+                    .setDatabaseUrl(this.databaseURL)
                     .build();
             if(FirebaseApp.getApps().isEmpty()) FirebaseApp.initializeApp(options);
         } catch (Exception e) {

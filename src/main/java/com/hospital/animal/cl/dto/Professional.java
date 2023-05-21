@@ -8,7 +8,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class Professional extends User{
+public class Professional extends User {
     private String role;
     private List<String> specialities;
 

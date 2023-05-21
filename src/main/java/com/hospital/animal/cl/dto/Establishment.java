@@ -1,6 +1,5 @@
 package com.hospital.animal.cl.dto;
 
-import com.hospital.animal.cl.services.firebase.FirebaseRegister;
 import lombok.*;
 
 import java.util.List;
@@ -9,7 +8,7 @@ import java.util.List;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 
-public class Establishment extends FirebaseRegister {
+public class Establishment extends DatabaseRegister {
 
     private Location location;
     private User owner;
@@ -19,5 +18,6 @@ public class Establishment extends FirebaseRegister {
     private String avatar;
     private String cellNumber;
     private List<String> specialities;
+    private List<Professional> professionals;
 
 }

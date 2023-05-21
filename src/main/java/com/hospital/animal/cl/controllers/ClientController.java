@@ -2,7 +2,7 @@ package com.hospital.animal.cl.controllers;
 
 import com.hospital.animal.cl.dto.Client;
 import com.hospital.animal.cl.errors.ErrorMessage;
-import com.hospital.animal.cl.services.impl.ClientServiceImpl;
+import com.hospital.animal.cl.services.firebase.impl.ClientServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

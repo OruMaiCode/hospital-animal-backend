@@ -18,9 +18,10 @@ public class Event {
     private Date date;
     private String start;
     private String end;
-    private Scheduler scheduledBy;
+    private User scheduledBy;
     private Client client;
     private Patient patient;
+    private Professional professional;
     private Establishment ownerOf;
 
 }

@@ -1,16 +1,16 @@
 package com.hospital.animal.cl.dto;
 
-import com.hospital.animal.cl.services.firebase.FirebaseRegister;
 import lombok.*;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
-@AllArgsConstructor
-@NoArgsConstructor
-public class Patient extends FirebaseRegister {
+import javax.validation.constraints.NotNull;
 
-    private String privatename;
+@Data
+@NoArgsConstructor
+public class Patient extends DatabaseRegister {
+
     private Integer age ;
+    @NotNull
+    private String name;
     private String ageUnit;
     private String specie;
     private String race ;

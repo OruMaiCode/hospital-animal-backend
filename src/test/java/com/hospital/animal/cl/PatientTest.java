@@ -3,11 +3,12 @@ package com.hospital.animal.cl;
 import com.hospital.animal.cl.dto.Coordinates;
 import com.hospital.animal.cl.dto.Location;
 import com.hospital.animal.cl.dto.Patient;
-import com.hospital.animal.cl.services.impl.PatientServiceImpl;
+import com.hospital.animal.cl.services.firebase.impl.PatientServiceImpl;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @SpringBootTest()
@@ -46,8 +47,59 @@ class PatientTest {
     }
     @Order(1)
     @Test
-    void createPatient() throws InterruptedException, ExecutionException {
+    void createPatient() throws InterruptedException {
         patient =patientService.create(patient);
-        Assertions.assertNotNull(patient.getuID());
+        Assertions.assertNotNull(patient.getUid());
+    }
+    @Order(2)
+    @Test
+    void getPatient() throws InterruptedException, ExecutionException {
+        Patient patient1 = patientService.get(patient.getUid());
+        Assertions.assertEquals(NAME,patient1.getName());
+        Assertions.assertEquals(AGE,patient1.getAge());
+        Assertions.assertEquals(AGE_UNIT,patient1.getAgeUnit());
+        Assertions.assertEquals(SPECIE,patient1.getSpecie());
+        Assertions.assertEquals(RACE,patient1.getRace());
+        Assertions.assertEquals(BIRTH_CONTROL,patient1.getBirthControl());
+        Assertions.assertEquals(WEIGHT,patient1.getWeight());
+        Assertions.assertEquals(WEIGHT_UNIT,patient1.getWeightUnit());
+        Assertions.assertEquals(LOCATION,patient1.getLocation());
+    }
+
+    @Order(3)
+    @Test
+    void getAllPatients() throws InterruptedException, ExecutionException {
+        List<Patient> patients = patientService.getAll();
+        Assertions.assertFalse(patients.isEmpty());
+        patients.forEach(patient->{
+            Assertions.assertEquals(NAME,patient.getName());
+            Assertions.assertEquals(AGE,patient.getAge());
+            Assertions.assertEquals(AGE_UNIT,patient.getAgeUnit());
+            Assertions.assertEquals(SPECIE,patient.getSpecie());
+            Assertions.assertEquals(RACE,patient.getRace());
+            Assertions.assertEquals(BIRTH_CONTROL,patient.getBirthControl());
+            Assertions.assertEquals(WEIGHT,patient.getWeight());
+            Assertions.assertEquals(WEIGHT_UNIT,patient.getWeightUnit());
+            Assertions.assertEquals(LOCATION,patient.getLocation());
+        });
+    }
+
+    @Order(4)
+    @Test
+    void editPatient() throws InterruptedException, ExecutionException {
+        Integer age = patient.getAge();
+        Integer newAge = age+10;
+        patient.setAge(newAge);
+        patientService.update(patient);
+        Patient patient1 = patientService.get(patient.getUid());
+        Assertions.assertEquals(patient1.getAge(),newAge);
+        patient1.setAge(age);
+        patientService.update(patient1);
+        Assertions.assertEquals(patient1.getAge(),age);
+    }
+    @Order(5)
+    @Test
+    void deletePatient() throws InterruptedException {
+        Assertions.assertTrue(patientService.delete(patient.getUid()));
     }
 }
