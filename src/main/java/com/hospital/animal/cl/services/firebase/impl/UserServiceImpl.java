@@ -29,14 +29,17 @@ public class UserServiceImpl implements FirebaseRepository<User> {
     public void resetPassword() {
 
     }
+    public User getByEmail(String email) throws ExecutionException, InterruptedException {
+        return this.build().getByField("email",email);
+    }
     @Override
     public List<User> getAll() throws InterruptedException, ExecutionException {
         return this.build().getAll();
     }
 
     @Override
-    public User get(String uid) throws InterruptedException, ExecutionException {
-        return this.build().get(uid);
+    public User getByUid(String uid) throws InterruptedException, ExecutionException {
+        return this.build().getByUid(uid);
     }
 
     @Override

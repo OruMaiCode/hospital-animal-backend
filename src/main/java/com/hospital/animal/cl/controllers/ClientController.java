@@ -10,7 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -49,7 +49,7 @@ public class ClientController {
     public ResponseEntity<Client> getClient(@Valid  @PathVariable("uid") String uid){
         Client client = null;
         try {
-            client = clientService.get(uid);
+            client = clientService.getByUid(uid);
         } catch (InterruptedException |ExecutionException ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }

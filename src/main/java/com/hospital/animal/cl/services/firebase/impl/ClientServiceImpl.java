@@ -24,8 +24,8 @@ public  class ClientServiceImpl implements FirebaseRepository<Client> {
 
     }
     @Override
-    public Client get(String uid) throws InterruptedException, ExecutionException {
-        return this.build().get(uid);
+    public Client getByUid(String uid) throws InterruptedException, ExecutionException {
+        return this.build().getByUid(uid);
     }
 
 

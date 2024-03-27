@@ -54,7 +54,7 @@ class PatientTest {
     @Order(2)
     @Test
     void getPatient() throws InterruptedException, ExecutionException {
-        Patient patient1 = patientService.get(patient.getUid());
+        Patient patient1 = patientService.getByUid(patient.getUid());
         Assertions.assertEquals(NAME,patient1.getName());
         Assertions.assertEquals(AGE,patient1.getAge());
         Assertions.assertEquals(AGE_UNIT,patient1.getAgeUnit());
@@ -91,7 +91,7 @@ class PatientTest {
         Integer newAge = age+10;
         patient.setAge(newAge);
         patientService.update(patient);
-        Patient patient1 = patientService.get(patient.getUid());
+        Patient patient1 = patientService.getByUid(patient.getUid());
         Assertions.assertEquals(patient1.getAge(),newAge);
         patient1.setAge(age);
         patientService.update(patient1);

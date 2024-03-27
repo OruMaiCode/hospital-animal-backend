@@ -62,7 +62,7 @@ class ClientTest {
     @Order(3)
     @Test
     void getClient() throws InterruptedException, ExecutionException {
-        Client client1 = clientService.get(client.getUid());
+        Client client1 = clientService.getByUid(client.getUid());
         Assertions.assertEquals(AGE,client1.getAge());
         Assertions.assertEquals(NAME,client1.getName());
         Assertions.assertEquals(EMAIL,client1.getEmail());
@@ -73,7 +73,7 @@ class ClientTest {
         Assertions.assertEquals(LONGITUDE,client1.getLocation().getCoordinates().getLng());
         Assertions.assertNotNull(client1.getUid());
           Assertions.assertThrows(RuntimeException.class,()->{
-             clientService.get(null);
+             clientService.getByUid(null);
           });
     }
 
@@ -84,7 +84,7 @@ class ClientTest {
         Integer newAge = age+10;
         client.setAge(newAge);
         clientService.update(client);
-        Client client1 = clientService.get(client.getUid());
+        Client client1 = clientService.getByUid(client.getUid());
         Assertions.assertEquals(client1.getAge(),newAge);
         client1.setAge(age);
         clientService.update(client1);

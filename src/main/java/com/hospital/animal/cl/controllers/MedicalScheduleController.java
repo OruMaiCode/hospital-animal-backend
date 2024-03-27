@@ -1,6 +1,7 @@
 package com.hospital.animal.cl.controllers;
 
 import com.hospital.animal.cl.dto.Day;
+import com.hospital.animal.cl.dto.Event;
 import com.hospital.animal.cl.errors.ErrorMessage;
 import com.hospital.animal.cl.services.firebase.impl.MedicalScheduleServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -32,10 +33,10 @@ public class MedicalScheduleController {
 
     }
     @GetMapping("/{uid}")
-    public ResponseEntity<Day> getClient(@Valid  @PathVariable("uid") String uid){
+    public ResponseEntity<Day> getMedicalSchedule(@Valid  @PathVariable("uid") String uid){
         Day day = null;
         try {
-            day = this.medicalScheduleService.get(uid);
+            day = this.medicalScheduleService.getByUid(uid);
             return ResponseEntity.status(day == null ?HttpStatus.NOT_FOUND:HttpStatus.OK).body(day);
         } catch (InterruptedException |ExecutionException ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
@@ -43,7 +44,7 @@ public class MedicalScheduleController {
 
     }
     @PostMapping
-    public ResponseEntity<Day> createClient(@Valid @RequestBody Day day, BindingResult result){
+    public ResponseEntity<Day> createMedicalSchedule(@Valid @RequestBody Day day, BindingResult result){
         if(result.hasErrors()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessage.builder().build().formatMessage(result));
         Day createdDay= null;
         try {
@@ -53,9 +54,20 @@ public class MedicalScheduleController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
 
+    }   @PostMapping
+    public ResponseEntity<Day> addEvent(@Valid @RequestBody Event event, BindingResult result){
+        if(result.hasErrors()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessage.builder().build().formatMessage(result));
+        Day createdDay= null;
+        try {
+            createdDay = this.medicalScheduleService.addEvent(event);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdDay);
+        } catch (InterruptedException |ExecutionException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
     }
     @PatchMapping
-    public ResponseEntity<Day> updateClient(@Valid @RequestBody Day day, BindingResult result){
+    public ResponseEntity<Day> updateMedicalSchedule(@Valid @RequestBody Day day, BindingResult result){
         if(result.hasErrors()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessage.builder().build().formatMessage(result));
         Day updatedDay = null;
         try {
@@ -67,7 +79,7 @@ public class MedicalScheduleController {
 
     }
     @DeleteMapping(value = "/{uid}")
-    public ResponseEntity<Void> deleteClient(@Valid  @PathVariable("uid") String uid){
+    public ResponseEntity<Void> deleteMedicalSchedule(@Valid  @PathVariable("uid") String uid){
         Boolean isDeleted = null;
         try {
             isDeleted = this.medicalScheduleService.delete(uid);

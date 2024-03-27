@@ -2,11 +2,11 @@ package com.hospital.animal.cl.dto;
 
 
 
-public enum Entity {
+public enum Role {
      CLIENT("Client"),
     PROFESSIONAL("Professional");
-    private String label;
-    private Entity(String label){
+    public String label;
+    private Role(String label){
         this.label=label;
     }
 }

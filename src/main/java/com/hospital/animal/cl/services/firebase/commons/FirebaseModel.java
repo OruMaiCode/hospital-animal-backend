@@ -29,15 +29,39 @@ public class FirebaseModel<T extends DatabaseRegister> {
         return documents.stream().parallel().map(queryDocumentSnapshot -> queryDocumentSnapshot.toObject(t)).toList();
     }
 
-    public T get(String uid) throws InterruptedException, ExecutionException {
+    public T getByUid(String uid) throws InterruptedException, ExecutionException {
         ApiFuture<DocumentSnapshot> future = this.firestore.collection(this.collectionName).document(uid).get();
         DocumentSnapshot document = future.get();
         return document.toObject(this.t);
 
     }
 
+    public  T getByField(String field, String email) throws InterruptedException, ExecutionException {
+        ApiFuture<QuerySnapshot> future = this.firestore.collection(this.collectionName).whereEqualTo(field,email).get();
+        QuerySnapshot queryDocumentSnapshots = future.get();
+        if(!queryDocumentSnapshots.getDocuments().isEmpty()){
+         return   queryDocumentSnapshots.getDocuments().getFirst().toObject(this.t);
+        }
+
+        return null;
+
+    }
+
+
     public T create(T t) throws InterruptedException, ExecutionException {
         DocumentReference document = this.firestore.collection(this.collectionName).document();
+        t.setUid(document.getId());
+        ApiFuture<WriteResult> writeResultApiFuture = document.set(t);
+        writeResultApiFuture.get();
+        if (writeResultApiFuture.isDone()) {
+            ApiFuture<DocumentSnapshot> documentSnapshot = document.get();
+            return documentSnapshot.get().toObject(this.t);
+        }
+        return t;
+    }
+
+    public T create(T t,String uid) throws InterruptedException, ExecutionException {
+        DocumentReference document = this.firestore.collection(this.collectionName).document(uid);
         t.setUid(document.getId());
         ApiFuture<WriteResult> writeResultApiFuture = document.set(t);
         writeResultApiFuture.get();

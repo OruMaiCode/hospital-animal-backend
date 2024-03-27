@@ -22,8 +22,8 @@ public  class PatientServiceImpl implements FirebaseRepository<Patient> {
         return this.build().getAll();
     }
     @Override
-    public Patient get(String uid) throws ExecutionException, InterruptedException {
-        return this.build().get(uid);
+    public Patient getByUid(String uid) throws ExecutionException, InterruptedException {
+        return this.build().getByUid(uid);
     }
 
     @Override

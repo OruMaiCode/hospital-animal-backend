@@ -9,8 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class Professional extends User {
-    private String role;
     private List<String> specialities;
-
+    private List<Establishment> establishments;
 
 }

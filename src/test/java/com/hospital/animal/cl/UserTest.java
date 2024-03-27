@@ -51,7 +51,7 @@ public class UserTest {
     @Order(3)
     @Test
     void getUser() throws InterruptedException, ExecutionException {
-        User user1=userService.get(user.getUid());
+        User user1=userService.getByUid(user.getUid());
         Assertions.assertEquals(NAME,user1.getName());
         Assertions.assertEquals(EMAIL,user1.getEmail());
         Assertions.assertEquals(AGE,user1.getAge());
@@ -66,7 +66,7 @@ public class UserTest {
         Integer newAge = age+10;
         user.setAge(newAge);
         userService.update(user);
-        User user1 = userService.get(user.getUid());
+        User user1 = userService.getByUid(user.getUid());
         Assertions.assertEquals(user1.getAge(),newAge);
         user1.setAge(age);
         userService.update(user1);
